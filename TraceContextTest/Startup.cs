@@ -66,8 +66,6 @@ namespace TraceContextTest {
 			using (var httpClient = new HttpClient()) {
 				httpClient.DefaultRequestHeaders.Add("requestroute", moreRequests);
 				await httpClient.GetAsync(nextRequest);
-				await httpClient.GetAsync(nextRequest);
-				await httpClient.GetAsync(nextRequest);
 			}
 		}
 
