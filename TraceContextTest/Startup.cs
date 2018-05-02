@@ -35,10 +35,14 @@ namespace TraceContextTest {
 				string tracestate = GetHeaderValue(context.Request.Headers, "tracestate");
 				string requestRoute = GetHeaderValue(context.Request.Headers, "requestroute");
 
-				Console.WriteLine($"{DateTime.Now} ==== NEW REQUEST ====");
+				Console.WriteLine();
+				Console.WriteLine($"==== NEW REQUEST ==== ({DateTime.Now})");
 				Console.WriteLine($"  traceparent: {traceparent}");
 				Console.WriteLine($"  tracestate: {tracestate}");
 				Console.WriteLine($"  requestroute: {requestRoute}");
+				Console.WriteLine();
+
+				System.Threading.Thread.Sleep(500);
 
 				if (!string.IsNullOrEmpty(requestRoute)) {
 					await DoNextRequest(context, requestRoute);
@@ -61,7 +65,9 @@ namespace TraceContextTest {
 
 			using (var httpClient = new HttpClient()) {
 				httpClient.DefaultRequestHeaders.Add("requestroute", moreRequests);
-				var response = await httpClient.GetAsync(nextRequest);
+				await httpClient.GetAsync(nextRequest);
+				await httpClient.GetAsync(nextRequest);
+				await httpClient.GetAsync(nextRequest);
 			}
 		}
 
